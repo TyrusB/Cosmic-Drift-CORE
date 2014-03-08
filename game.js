@@ -10,8 +10,11 @@
     this.DIM_Y = this.canvas.height;
   }
 
-  Game.SPEED = 5;
+  Game.SPEED = 30;
   Game.ASTEROIDS = 10;
+  Game.THRUST_POWER = 0.7;
+  Game.HANDLE_TWEAK = 1.0;
+  Game.MAX_THRUST = 10;
 
 
   Game.prototype.addAsteroids = function (numAsteroids) {
@@ -21,7 +24,7 @@
   }
 
   Game.prototype.addShips = function() {
-    this.ship = new Asteroids.Ship(this.DIM_X / 2, this.DIM_Y / 2);
+    this.ship = new Asteroids.Ship(this.DIM_X, this.DIM_Y);
   }
 
   Game.prototype.draw = function (ctx) {
@@ -65,6 +68,7 @@
   }
 
   Game.prototype.step = function(ctx){
+    this.listenKeyEvents();
     this.move.call(this);
     this.checkBoundaries.call(this);
     this.draw.call(this, ctx);
@@ -90,26 +94,41 @@
     });
   }
 
-  Game.prototype.bindKeyHandlers = function(){
+  Game.prototype.listenKeyEvents = function(){
     var that = this;
 
-    key("left", function () {
-      that.ship.rotation += Math.PI*(0.1);
-    });
+    if (key.isPressed("left")) {
+      that.ship.rotation += Math.PI*(0.05) * Game.HANDLE_TWEAK ;
+    };
 
-    key("right", function () {
-      that.ship.rotation -= Math.PI*(0.1);
-    });
+    if (key.isPressed("right")) {
+      that.ship.rotation -= Math.PI*(0.05) * Game.HANDLE_TWEAK;
+    };
 
-    key("up", function () {
+    if (key.isPressed("up")) {
       var vector = that.ship.getVector()
-      that.ship.vx = that.ship.vx + vector[0]
-      that.ship.vy = that.ship.vy + vector[1]
+      that.ship.vx = that.ship.vx + vector[0] * Game.THRUST_POWER
+      // if (that.ship.vx > MAX_THRUST) {
+      //   that.ship.vx = MAX_THRUST;
+      // }
+
+      that.ship.vy = that.ship.vy + vector[1] * Game.THRUST_POWER
+      // if (that.ship.vy > Game.MAX_THRUST) {
+      //   that.ship.vy = Game.MAX_THRUST;
+      // }
+    };
+  }
+
+  Game.prototype.bindKeyHandlers = function() {
+    var that = this;
+    key("space", function() {
+      that.fireBullet.bind(that);
     });
 
-    key("space", that.fireBullet.bind(that));
+    key("q", function() {
+     that.stop();
+    });
 
-    key("q", function() {that.stop();});
   }
 
   Game.prototype.stop = function(){
