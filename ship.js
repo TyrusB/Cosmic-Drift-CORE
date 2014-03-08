@@ -1,9 +1,11 @@
 (function(root){
   var Asteroids = root.Asteroids = (root.Asteroids || {} )
 
-  var Ship = Asteroids.Ship = function(midx, midy) {
-    Asteroids.MovingObject.call(this, midx, midy, 0, 0, Ship.RADIUS, Ship.COLOR);
+  var Ship = Asteroids.Ship = function(board_x, board_y) {
+    Asteroids.MovingObject.call(this, (board_x / 2), (board_y / 2), 0, 0, Ship.RADIUS, Ship.COLOR);
     this.rotation =  Math.PI / 3;
+    this.board_x = board_x;
+    this.board_y = board_y;
   }
 
   Ship.inherits(Asteroids.MovingObject);
@@ -61,6 +63,25 @@
   Ship.prototype.power = function(impulse) {
     this.vx += impulse[0]/ 2;
     this.vy += impulse[1]/ 2;
+  }
+
+  Ship.prototype.move = function() {
+    if (this.posx > this.board_x) {
+      this.posx = this.posx - this.board_x + this.vx
+    } else if (this.posx < 0){
+      this.posx = this.posx + this.board_x + this.vx
+    } else {
+      this.posx = this.posx + this.vx
+    }
+
+    if (this.posy > this.board_y) {
+      this.posy = this.posy - this.board_y + this.vy
+    } else if (this.posy < 0){
+      this.posy = this.posy + this.board_y + this.vy
+    } else {
+      this.posy = this.posy + this.vy
+    }
+
   }
 
 })(this);

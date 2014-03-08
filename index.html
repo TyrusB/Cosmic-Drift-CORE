@@ -2,19 +2,23 @@
 <html>
 <head>
     <title>Asteroids</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="keymaster.js"></script>
     <script src='inherits.js'></script>
     <script src='moving_object.js'></script>
     <script src='asteroid.js'></script>
     <script src='ship.js'></script>
     <script src='bullet.js'></script>
-    <script src="keymaster.js"></script>
     <script src='game.js'></script>
 </head>
 <body>
     <canvas id="canvas" width="800" height="500"></canvas>
     <script>
         var canvas = document.getElementById("canvas");
-        new Asteroids.Game(canvas).start();
+        game = new Asteroids.Game(canvas);
+        game.start();
+
+
     </script>
 </body>
 </html>
