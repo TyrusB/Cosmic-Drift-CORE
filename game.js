@@ -8,13 +8,14 @@
     this.canvas = canvas;
     this.DIM_X = this.canvas.width;
     this.DIM_Y = this.canvas.height;
+    this.turnNo = 1;
   }
 
-  Game.SPEED = 30;
+  Game.SPEED = 20;
   Game.ASTEROIDS = 10;
-  Game.THRUST_POWER = 0.7;
+  Game.THRUST_POWER = 0.3;
   Game.HANDLE_TWEAK = 1.0;
-  Game.MAX_THRUST = 10;
+  Game.MAX_THRUST = 0.002;
 
 
   Game.prototype.addAsteroids = function (numAsteroids) {
@@ -22,6 +23,13 @@
       this.asteroids.push( Asteroids.Asteroid.randomAsteroid(this.DIM_X, this.DIM_Y) );
     }
   }
+
+  Game.prototype.replenishAsteroids = function() {
+    if (this.turnNo % 20 == 0 && this.asteroids.length < Game.ASTEROIDS) {
+        this.asteroids.push( Asteroids.Asteroid.edgeAsteroid(this.DIM_X, this.DIM_Y));
+    }
+  }
+  
 
   Game.prototype.addShips = function() {
     this.ship = new Asteroids.Ship(this.DIM_X, this.DIM_Y);
@@ -67,14 +75,7 @@
     this.bullets.splice(bullet_index, 1);
   }
 
-  Game.prototype.step = function(ctx){
-    this.listenKeyEvents();
-    this.move.call(this);
-    this.checkBoundaries.call(this);
-    this.draw.call(this, ctx);
-    this.checkCollisions();
-  }
-
+  
   Game.prototype.checkCollisions = function() {
     var that = this;
     var crashed = this.asteroids.some( function (el) {
@@ -88,8 +89,13 @@
   }
 
   Game.prototype.checkBoundaries = function() {
-    var that = this;
+    var that = this
+
     this.asteroids = this.asteroids.filter(function(el) {
+      return !(el.posx >= that.DIM_X || el.posy >= that.DIM_Y || el.posx < 0 || el.posy < 0)
+    });
+
+    this.bullets = this.bullets.filter(function(el) {
       return !(el.posx >= that.DIM_X || el.posy >= that.DIM_Y || el.posx < 0 || el.posy < 0)
     });
   }
@@ -104,6 +110,10 @@
     if (key.isPressed("right")) {
       that.ship.rotation -= Math.PI*(0.05) * Game.HANDLE_TWEAK;
     };
+
+    if(key.isPressed("space")) {
+      that.fireBullet();
+    }
 
     if (key.isPressed("up")) {
       var vector = that.ship.getVector()
@@ -121,15 +131,27 @@
 
   Game.prototype.bindKeyHandlers = function() {
     var that = this;
-    key("space", function() {
-      that.fireBullet.bind(that);
-    });
+    //key("space", that.fireBullet.bind(that));
 
     key("q", function() {
      that.stop();
     });
 
   }
+
+  Game.prototype.step = function(ctx){
+    this.turnNo += 1
+
+    this.replenishAsteroids.call(this);
+
+    this.listenKeyEvents();
+    this.move.call(this);
+    this.checkBoundaries.call(this);
+    this.draw.call(this, ctx);
+    this.checkCollisions();
+
+  }
+
 
   Game.prototype.stop = function(){
     clearInterval(this.handle);
