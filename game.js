@@ -17,7 +17,7 @@
   Game.THRUST_POWER = 0.35;
   Game.HANDLE_TWEAK = 1.0;
   Game.MAX_THRUST = 7.0;
-  
+
 
 
   Game.prototype.addAsteroids = function (numAsteroids) {
@@ -31,7 +31,7 @@
         this.asteroids.push( Asteroids.Asteroid.edgeAsteroid(Game.DIM_X, Game.DIM_Y));
     }
   }
-  
+
 
   Game.prototype.addShips = function() {
     this.ship = new Asteroids.Ship(Game.DIM_X, Game.DIM_Y);
@@ -64,7 +64,10 @@
   }
 
   Game.prototype.fireBullet = function() {
-    this.bullets.push(this.ship.fireBullet(this));
+    if (this.bullet_cooldown < 0 ) {
+      this.bullets.push(this.ship.fireBullet(this));
+      this.bullet_cooldown = 5;
+    }
   }
 
   Game.prototype.removeAsteroid = function(asteroid){
@@ -77,7 +80,7 @@
     this.bullets.splice(bullet_index, 1);
   }
 
-  
+
   Game.prototype.checkCollisions = function() {
     var that = this;
     var crashed = this.asteroids.some( function (el) {
@@ -85,8 +88,9 @@
     });
 
     if(crashed){
-      alert("Game over!");
       that.stop();
+      alert("Game over!");
+      location.reload();
     }
   }
 
@@ -119,7 +123,7 @@
 
     if (key.isPressed("up")) {
       var vector = that.ship.getVector()
-      
+
       that.ship.vx = that.ship.vx + vector[0] * Game.THRUST_POWER;
       if (that.ship.vx > 0) {
         that.ship.vx = Math.min(that.ship.vx, Game.MAX_THRUST);
@@ -139,7 +143,7 @@
   Game.prototype.bindKeyHandlers = function() {
     var that = this;
     //key("space", that.fireBullet.bind(that));
-
+    this.bullet_cooldown = 1;
     key("q", function() {
      that.stop();
     });
@@ -148,6 +152,7 @@
 
   Game.prototype.step = function(ctx){
     this.turnNo += 1
+    this.bullet_cooldown -= 1;
 
     this.replenishAsteroids.call(this);
 
