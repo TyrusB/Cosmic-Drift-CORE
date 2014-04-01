@@ -158,6 +158,7 @@
 
     this.listenKeyEvents();
     this.move.call(this);
+    //reimplement this V
     //this.checkBoundaries.call(this);
     this.draw.call(this, ctx);
     this.checkCollisions();
