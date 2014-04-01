@@ -65,23 +65,5 @@
     this.vy += impulse[1]/ 2;
   }
 
-  Ship.prototype.move = function() {
-    if (this.posx > this.board_x) {
-      this.posx = this.posx - this.board_x + this.vx
-    } else if (this.posx < 0){
-      this.posx = this.posx + this.board_x + this.vx
-    } else {
-      this.posx = this.posx + this.vx
-    }
-
-    if (this.posy > this.board_y) {
-      this.posy = this.posy - this.board_y + this.vy
-    } else if (this.posy < 0){
-      this.posy = this.posy + this.board_y + this.vy
-    } else {
-      this.posy = this.posy + this.vy
-    }
-
-  }
 
 })(this);
