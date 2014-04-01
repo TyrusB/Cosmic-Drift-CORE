@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asteroids</title>
+    <script src="keymaster.js"></script>
+    <script src='inherits.js'></script>
+    <script src='moving_object.js'></script>
+    <script src='asteroid.js'></script>
+    <script src='ship.js'></script>
+    <script src='bullet.js'></script>
+    <script src='game.js'></script>
+</head>
+<body>
+    <h1>Asteroids</h1>
+    <div class='game-holder'>
+        <canvas id="canvas" width="800" height="500"></canvas>
+    </div>
+    <script>
+        var canvas = document.getElementById("canvas");
+        var spaceBackground = new Image();
+        spaceBackground.src = "space.jpg";
+
+        spaceBackground.onload = function() {
+            game = new Asteroids.Game(canvas);
+            game.start();
+        };
+
+
+    </script>
+</body>
+</html>
+
+<style>
+body h1 {
+  text-align: center;
+  color: yellow;
+}
+
+.game-holder {
+    margin-left: auto;
+    margin-right: auto;
+    width: 800px;
+    height: 500px;
+}
+
+#canvas {
+    border: 2px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    display: inline;
+    background: url(space.jpg);
+}
+
+body {
+  background: url("cockpit.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+</style>
+
