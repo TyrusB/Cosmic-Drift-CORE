@@ -11,13 +11,37 @@
     <script src='game.js'></script>
 </head>
 <body>
-    <canvas id="canvas" width="800" height="500"></canvas>
+    <div class='game-holder'>
+        <canvas id="canvas" width="800" height="500"></canvas>
+    </div>
     <script>
         var canvas = document.getElementById("canvas");
-        game = new Asteroids.Game(canvas);
-        game.start();
+        var spaceBackground = new Image();
+        spaceBackground.src = "/space.jpg";
 
+        spaceBackground.onLoad = function() {
+            game = new Asteroids.Game(canvas);
+            game.start();
+        };
+            
 
     </script>
 </body>
 </html>
+
+<style>
+    .game-holder {
+        margin-left: auto;
+        margin-right: auto;
+        width: 800px;
+        height: 500px;
+    }
+
+    #canvas {
+        border: 2px solid black;
+        margin-left: auto;
+        margin-right: auto;
+        display: inline;
+    }
+</style>
+

@@ -6,37 +6,39 @@
     this.bullets = [];
     this.ship = null;
     this.canvas = canvas;
-    this.DIM_X = this.canvas.width;
-    this.DIM_Y = this.canvas.height;
     this.turnNo = 1;
+
+    Game.DIM_X = this.canvas.width;
+    Game.DIM_Y = this.canvas.height;
   }
 
   Game.SPEED = 20;
   Game.ASTEROIDS = 10;
-  Game.THRUST_POWER = 0.3;
+  Game.THRUST_POWER = 0.35;
   Game.HANDLE_TWEAK = 1.0;
-  Game.MAX_THRUST = 0.002;
+  Game.MAX_THRUST = 7.0;
+  
 
 
   Game.prototype.addAsteroids = function (numAsteroids) {
     for(var i = 0; i < numAsteroids; i++){
-      this.asteroids.push( Asteroids.Asteroid.randomAsteroid(this.DIM_X, this.DIM_Y) );
+      this.asteroids.push( Asteroids.Asteroid.randomAsteroid(Game.DIM_X, Game.DIM_Y) );
     }
   }
 
   Game.prototype.replenishAsteroids = function() {
     if (this.turnNo % 20 == 0 && this.asteroids.length < Game.ASTEROIDS) {
-        this.asteroids.push( Asteroids.Asteroid.edgeAsteroid(this.DIM_X, this.DIM_Y));
+        this.asteroids.push( Asteroids.Asteroid.edgeAsteroid(Game.DIM_X, Game.DIM_Y));
     }
   }
   
 
   Game.prototype.addShips = function() {
-    this.ship = new Asteroids.Ship(this.DIM_X, this.DIM_Y);
+    this.ship = new Asteroids.Ship(Game.DIM_X, Game.DIM_Y);
   }
 
   Game.prototype.draw = function (ctx) {
-    ctx.clearRect(0, 0, this.DIM_X, this.DIM_Y);
+    ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
 
     this.asteroids.forEach( function (el) {
       el.draw(ctx);
@@ -88,17 +90,17 @@
     }
   }
 
-  Game.prototype.checkBoundaries = function() {
-    var that = this
+  // Game.prototype.checkBoundaries = function() {
+  //   var that = this
 
-    this.asteroids = this.asteroids.filter(function(el) {
-      return !(el.posx >= that.DIM_X || el.posy >= that.DIM_Y || el.posx < 0 || el.posy < 0)
-    });
+  //   this.asteroids = this.asteroids.filter(function(el) {
+  //     return !(el.posx >= that.DIM_X || el.posy >= that.DIM_Y || el.posx < 0 || el.posy < 0)
+  //   });
 
-    this.bullets = this.bullets.filter(function(el) {
-      return !(el.posx >= that.DIM_X || el.posy >= that.DIM_Y || el.posx < 0 || el.posy < 0)
-    });
-  }
+  //   this.bullets = this.bullets.filter(function(el) {
+  //     return !(el.posx >= that.DIM_X || el.posy >= that.DIM_Y || el.posx < 0 || el.posy < 0)
+  //   });
+  // }
 
   Game.prototype.listenKeyEvents = function(){
     var that = this;
@@ -117,15 +119,20 @@
 
     if (key.isPressed("up")) {
       var vector = that.ship.getVector()
-      that.ship.vx = that.ship.vx + vector[0] * Game.THRUST_POWER
-      // if (that.ship.vx > MAX_THRUST) {
-      //   that.ship.vx = MAX_THRUST;
-      // }
+      
+      that.ship.vx = that.ship.vx + vector[0] * Game.THRUST_POWER;
+      if (that.ship.vx > 0) {
+        that.ship.vx = Math.min(that.ship.vx, Game.MAX_THRUST);
+      } else {
+        that.ship.vx = Math.max(that.ship.vx, -1 * Game.MAX_THRUST);
+      }
 
-      that.ship.vy = that.ship.vy + vector[1] * Game.THRUST_POWER
-      // if (that.ship.vy > Game.MAX_THRUST) {
-      //   that.ship.vy = Game.MAX_THRUST;
-      // }
+      that.ship.vy = that.ship.vy + vector[1] * Game.THRUST_POWER;
+      if (that.ship.vy > 0) {
+        that.ship.vy = Math.min(that.ship.vy, Game.MAX_THRUST);
+      } else {
+        that.ship.vy = Math.max(that.ship.vy, -1 * Game.MAX_THRUST);
+      }
     };
   }
 
@@ -146,7 +153,7 @@
 
     this.listenKeyEvents();
     this.move.call(this);
-    this.checkBoundaries.call(this);
+    //this.checkBoundaries.call(this);
     this.draw.call(this, ctx);
     this.checkCollisions();
 
