@@ -21,8 +21,11 @@
 
 
   Game.prototype.addAsteroids = function (numAsteroids) {
-    for(var i = 0; i < numAsteroids; i++){
-      this.asteroids.push( Asteroids.Asteroid.randomAsteroid(Game.DIM_X, Game.DIM_Y) );
+    while (this.asteroids.length < numAsteroids) {
+      var randomAsteroid = Asteroids.Asteroid.randomAsteroid(Game.DIM_X, Game.DIM_Y) 
+      if ( Math.abs(randomAsteroid.posx - Game.DIM_X / 2) > 100 && Math.abs(randomAsteroid.posy - Game.DIM_Y / 2) < 80 ) {
+        this.asteroids.push( randomAsteroid );
+      }
     }
   }
 
@@ -54,6 +57,7 @@
   Game.prototype.move = function () {
     this.asteroids.forEach( function(el) {
       el.move();
+      el.rotation = (el.rotation += 0.1) % 360;
     });
 
     this.bullets.forEach( function(el) {
@@ -158,7 +162,6 @@
 
     this.listenKeyEvents();
     this.move.call(this);
-    //reimplement this V
     //this.checkBoundaries.call(this);
     this.draw.call(this, ctx);
     this.checkCollisions();
