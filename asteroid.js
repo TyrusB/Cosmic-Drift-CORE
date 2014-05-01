@@ -8,7 +8,7 @@
 
   Asteroid.inherits(Asteroids.MovingObject);
 
-  Asteroid.COLOR = "grey"
+  Asteroid.COLOR = "lightgrey"
 
   Asteroid.RADIUS = 15;
   Asteroid.MIN_RADIUS = 10;
@@ -44,7 +44,6 @@
   }
 
   Asteroid.prototype.draw = function(ctx) {
-    ctx.fillStyle = this.color;
 
     var p1x = this.radius * Math.sin(this.rotation + 30 * (Math.PI / 180) );
     var p1y = this.radius * Math.cos(this.rotation + 30 * (Math.PI / 180) );
@@ -83,7 +82,11 @@
     ctx.lineTo(x + p7x, y + p7y);
     ctx.lineTo(x + p8x, y + p8y);
     ctx.closePath();
+    ctx.fillStyle = this.color;
     ctx.fill();
+    ctx.strokeStyle = 'blue';
+    ctx.lineWidth = 2;
+    ctx.stroke();
   }
 
 

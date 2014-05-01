@@ -126,7 +126,8 @@
     }
 
     if (key.isPressed("up")) {
-      var vector = that.ship.getVector()
+      var vector = that.ship.getVector();
+      that.ship.thrusting = true;
 
       that.ship.vx = that.ship.vx + vector[0] * Game.THRUST_POWER;
       if (that.ship.vx > 0) {
@@ -141,6 +142,8 @@
       } else {
         that.ship.vy = Math.max(that.ship.vy, -1 * Game.MAX_THRUST);
       }
+    } else {
+      that.thrusting = false;
     };
   }
 

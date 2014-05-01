@@ -6,6 +6,7 @@
     this.rotation =  Math.PI / 3;
     this.board_x = board_x;
     this.board_y = board_y;
+    this.thrusting = false;
   }
 
   Ship.inherits(Asteroids.MovingObject);
