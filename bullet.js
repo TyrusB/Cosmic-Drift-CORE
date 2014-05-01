@@ -24,7 +24,8 @@
   Bullet.prototype.move = function() {
     this.posx = this.posx + this.vx;
     this.posy = this.posy + this.vy;
-    this.hitAsteroids();
+    this.hitAsteroids(); 
   }
 
 })(this);
+
