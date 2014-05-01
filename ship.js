@@ -10,7 +10,7 @@
 
   Ship.inherits(Asteroids.MovingObject);
 
-  Ship.RADIUS = 7;
+  Ship.RADIUS = 10;
   Ship.COLOR = "red";
 
   Ship.prototype.getVector = function() {
@@ -26,11 +26,11 @@
     var p1x = this.radius * Math.sin(this.rotation);
     var p1y = this.radius * Math.cos(this.rotation);
 
-    var p2x = this.radius * Math.sin(this.rotation + 120 * (Math.PI / 180) );
-    var p2y = this.radius * Math.cos(this.rotation + 120 * (Math.PI / 180) );
+    var p2x = this.radius * Math.sin(this.rotation + 135 * (Math.PI / 180) );
+    var p2y = this.radius * Math.cos(this.rotation + 135 * (Math.PI / 180) );
 
-    var p3x = this.radius * Math.sin(this.rotation + 240 * (Math.PI / 180) );
-    var p3y = this.radius * Math.cos(this.rotation + 240 * (Math.PI / 180) );
+    var p3x = this.radius * Math.sin(this.rotation + 230 * (Math.PI / 180) );
+    var p3y = this.radius * Math.cos(this.rotation + 230 * (Math.PI / 180) );
 
     ctx.fillStyle = this.color;
     ctx.beginPath();
