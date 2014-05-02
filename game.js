@@ -143,7 +143,7 @@
         that.ship.vy = Math.max(that.ship.vy, -1 * Game.MAX_THRUST);
       }
     } else {
-      that.thrusting = false;
+      that.ship.thrusting = false;
     };
   }
 
