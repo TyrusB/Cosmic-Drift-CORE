@@ -7,6 +7,7 @@
     this.ship = null;
     this.canvas = canvas;
     this.turnNo = 1;
+    this.score = 0;
 
     Game.DIM_X = this.canvas.width;
     Game.DIM_Y = this.canvas.height;
@@ -52,6 +53,7 @@
     });
 
     this.ship.draw(ctx);
+    this.drawScore(ctx);
   }
 
   Game.prototype.move = function () {
@@ -67,6 +69,16 @@
     this.ship.move();
   }
 
+  Game.prototype.drawScore = function(ctx) {
+    var scorex = Game.DIM_X - 30;
+    var scorey = 30;
+
+    ctx.font = '30pt Calibri';
+    ctx.fillStyle = 'white';
+    ctx.textAlign = 'right'
+    ctx.fillText("Score: " + this.score, scorex, scorey);
+  }
+
   Game.prototype.fireBullet = function() {
     if (this.bullet_cooldown < 0 ) {
       this.bullets.push(this.ship.fireBullet(this));
@@ -75,6 +87,7 @@
   }
 
   Game.prototype.removeAsteroid = function(asteroid){
+    this.score += parseInt(asteroid.radius / 4)
     var asteroid_index = this.asteroids.indexOf(asteroid);
     this.asteroids.splice(asteroid_index, 1);
   }
