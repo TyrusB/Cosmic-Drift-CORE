@@ -184,6 +184,32 @@
     this.handle = setInterval( this.step.bind(this, context), Game.SPEED );
   }
 
+  Game.prototype.loadInstructions = function() {
+    var game = this;
+    key.setScope('intro');
+
+    var ctx = this.canvas.getContext('2d');
+    var center_x = canvas.width / 2,
+        center_y = canvas.height / 2;
+
+    ctx.font = '65pt Calibri';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'yellow';
+    ctx.fillText('Cosmic Drift', center_x, center_y - 100);
+    ctx.font = '30pt Calibri';
+    ctx.fillStyle = 'white';
+    ctx.fillText('Instructions:', center_x, center_y)
+    ctx.fillText('Arrow Keys Turn', center_x, center_y + 50)
+    ctx.fillText('Space Bar Shoots', center_x, center_y + 100)
+    ctx.font = '20pt Calibri';
+    ctx.fillText('Hit enter to begin. Good luck and happy drifting...', center_x, center_y + 200);
+
+    key('enter', 'intro', function() {
+      game.start();
+      key.setScope('game');
+    }) 
+  }
+
 
 })(this);
 
