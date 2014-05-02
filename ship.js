@@ -24,6 +24,8 @@
   }
 
   Ship.prototype.draw = function(ctx) {
+
+    // First component: draw the ship, using the rotation to determine which direction it's pointing.
     var p1x = this.radius * Math.sin(this.rotation);
     var p1y = this.radius * Math.cos(this.rotation);
 
@@ -53,6 +55,16 @@
     );
     ctx.fill();
 
+    // Second part: check if thrust is being applied, and draw a thruster rocket if so
+    if (this.thrusting) {
+      ctx.beginPath();
+      ctx.moveTo(this.posx + p2x, this.posy + p2y);
+      ctx.lineTo(this.posx + p3x, this.posy + p3y);
+      ctx.lineTo(this.posx + (p2x + p3x) / 2, this.posy + (this))
+      ctx.strokeStyle = 'yellow'
+      ctx.lineWidth = 3;
+      ctx.stroke();
+    }
 
   }
 
