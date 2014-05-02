@@ -15,12 +15,10 @@
   Ship.COLOR = "red";
 
   Ship.prototype.getVector = function() {
-    var x = this.radius * Math.sin(this.rotation);
-    var y = this.radius * Math.cos(this.rotation);
-    // var mag = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2))
+    var x = Math.sin(this.rotation) * this.radius;
+    var y = Math.cos(this.rotation) * this.radius;
 
-    // return [(x / mag), (y / mag)];
-    return [(x/10), (y/10)];
+    return [x / 10, y / 10];
   }
 
   Ship.prototype.draw = function(ctx) {
@@ -72,11 +70,5 @@
     var direction = this.getVector();
     return new Asteroids.Bullet(this.posx, this.posy, direction, game);
   }
-
-  Ship.prototype.power = function(impulse) {
-    this.vx += impulse[0]/ 2;
-    this.vy += impulse[1]/ 2;
-  }
-
 
 })(this);

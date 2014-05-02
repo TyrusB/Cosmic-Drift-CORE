@@ -11,7 +11,7 @@
     <script src='game.js'></script>
 </head>
 <body>
-    <h1>Cosmic Drift</h1>
+    <h1> </h1>
     <div class='game-holder'>
         <canvas id="canvas" width="800" height="500"></canvas>
     </div>
@@ -22,7 +22,7 @@
 
         spaceBackground.onload = function() {
             game = new Asteroids.Game(canvas);
-            game.start();
+            game.loadInstructions();
         };
 
 
