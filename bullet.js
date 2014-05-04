@@ -13,9 +13,16 @@
 
   Bullet.prototype.hitAsteroids = function() {
       var that = this;
-      this.game.asteroids.forEach( function(el) {
-        if (el.isCollidedWith(that)) {
-          that.game.removeAsteroid(el);
+      this.game.asteroids.forEach( function(asteroid) {
+        if (asteroid.isCollidedWith(that)) {
+          if (asteroid.radius > Asteroids.Asteroid.SPLIT_SIZE) {
+            that.game.asteroids.push(
+              new Asteroids.Asteroid(asteroid.posx, asteroid.posy, -1 * that.vx / 3, that.vy / 3, asteroid.radius / 2 + 2, asteroid.color),
+              new Asteroids.Asteroid(asteroid.posx, asteroid.posy, that.vx / 3, that.vy / 3, asteroid.radius / 2 + 2, asteroid.color)
+            )
+          }
+
+          that.game.removeAsteroid(asteroid);
           that.game.removeBullet(that);
         }
     });
