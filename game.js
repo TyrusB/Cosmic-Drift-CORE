@@ -198,26 +198,38 @@
   }
 
   Game.prototype.loadInstructions = function() {
-    var game = this;
-    key.setScope('intro');
+    var maxFrames = 160,
+        frameNo = 0;
 
     var ctx = this.canvas.getContext('2d');
     var center_x = canvas.width / 2,
         center_y = canvas.height / 2;
 
-    ctx.font = '65pt Calibri';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'yellow';
-    ctx.fillText('Cosmic Drift', center_x, center_y - 100);
-    ctx.font = '30pt Calibri';
-    ctx.fillStyle = 'white';
-    ctx.fillText('Instructions:', center_x, center_y)
-    ctx.fillText('Arrow Keys Turn', center_x, center_y + 50)
-    ctx.fillText('Space Bar Shoots', center_x, center_y + 100)
-    ctx.font = '20pt Calibri';
-    ctx.fillText('Hit enter to begin. Good luck and happy drifting...', center_x, center_y + 200);
+    var loadFrame = function() {
+      ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+      ctx.font = '65pt Calibri';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = 'yellow';
+      ctx.fillText('Cosmic Drift', center_x, center_y - 100 + (maxFrames - frameNo) / maxFrames * 400);
+      ctx.font = '30pt Calibri';
+      ctx.fillStyle = 'white';
+      ctx.fillText('Controls:', center_x, center_y  + (maxFrames - frameNo) / maxFrames * 400)
+      ctx.fillText('Arrow Keys Turn', center_x, center_y + 50  + (maxFrames - frameNo) / maxFrames * 400)
+      ctx.fillText('Space Bar Shoots', center_x, center_y + 100  + (maxFrames - frameNo) / maxFrames * 400)
+      ctx.font = '20pt Calibri';
+      ctx.fillText('Hit enter to begin. Good luck and happy drifting...', center_x, center_y + 200  + (maxFrames - frameNo) / maxFrames * 400)
+    
+      frameNo = Math.min(frameNo + 1, maxFrames);
+    }
+
+    var scroll = setInterval(loadFrame, 25);
+
+
+    var game = this;
+    key.setScope('intro');
 
     key('enter', 'intro', function() {
+      clearInterval(scroll);
       game.start();
       key.setScope('game');
     }) 
