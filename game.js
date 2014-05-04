@@ -15,9 +15,9 @@
 
   Game.SPEED = 20;
   Game.ASTEROIDS = 10;
-  Game.THRUST_POWER = 0.35;
+  Game.THRUST_POWER = 0.25;
   Game.HANDLE_TWEAK = 1.0;
-  Game.MAX_THRUST = 7.0;
+  Game.MAX_THRUST = 5.0;
 
 
 
@@ -111,17 +111,13 @@
     }
   }
 
-  // Game.prototype.checkBoundaries = function() {
-  //   var that = this
+  Game.prototype.checkBoundaries = function() {
+    var that = this
 
-  //   this.asteroids = this.asteroids.filter(function(el) {
-  //     return !(el.posx >= that.DIM_X || el.posy >= that.DIM_Y || el.posx < 0 || el.posy < 0)
-  //   });
-
-  //   this.bullets = this.bullets.filter(function(el) {
-  //     return !(el.posx >= that.DIM_X || el.posy >= that.DIM_Y || el.posx < 0 || el.posy < 0)
-  //   });
-  // }
+    this.bullets = this.bullets.filter(function(el) {
+      return !(el.posx >= that.DIM_X || el.posy >= that.DIM_Y || el.posx < 0 || el.posy < 0)
+    });
+  }
 
   Game.prototype.listenKeyEvents = function(){
     var that = this;
@@ -178,7 +174,7 @@
 
     this.listenKeyEvents();
     this.move.call(this);
-    //this.checkBoundaries.call(this);
+    this.checkBoundaries.call(this);
     this.draw.call(this, ctx);
     this.checkCollisions();
 

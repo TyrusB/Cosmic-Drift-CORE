@@ -11,8 +11,9 @@
   Asteroid.COLOR = "lightgrey"
 
   Asteroid.RADIUS = 15;
-  Asteroid.MIN_RADIUS = 10;
+  Asteroid.MIN_RADIUS = 13;
   Asteroid.MAX_RADIUS = 25;
+  Asteroid.SPLIT_SIZE = 18;
 
   Asteroid.MAX_VEL = 3.5;
   Asteroid.MIN_VEL = 1.0;
@@ -39,8 +40,10 @@
     var posy = Math.random() * 10 * randomSign;
     var vx = ((Asteroid.MAX_VEL - Asteroid.MIN_VEL) * Math.random() + Asteroid.MIN_VEL) * (Math.random() < 0.5 ? -1 : 1);
     var vy = ((Asteroid.MAX_VEL - Asteroid.MIN_VEL) * Math.random() + Asteroid.MIN_VEL) * (Math.random() < 0.5 ? -1 : 1);
+    
+    var radius = Asteroid.randomBetween(Asteroid.MIN_RADIUS, Asteroid.MAX_RADIUS);
 
-    return new Asteroid(posx, posy, vx, vy, Asteroid.RADIUS, Asteroid.COLOR);
+    return new Asteroid(posx, posy, vx, vy, radius, Asteroid.COLOR);
   }
 
   Asteroid.prototype.draw = function(ctx) {
@@ -48,8 +51,8 @@
     var p1x = this.radius * Math.sin(this.rotation + 30 * (Math.PI / 180) );
     var p1y = this.radius * Math.cos(this.rotation + 30 * (Math.PI / 180) );
 
-    var p2x = 1 / 2 * this.radius * Math.sin(this.rotation + 60 * (Math.PI / 180) );
-    var p2y = 1 / 2 * this.radius * Math.cos(this.rotation + 60 * (Math.PI / 180) );
+    var p2x = 2 / 3 * this.radius * Math.sin(this.rotation + 60 * (Math.PI / 180) );
+    var p2y = 2 / 3 * this.radius * Math.cos(this.rotation + 60 * (Math.PI / 180) );
 
     var p3x = this.radius * Math.sin(this.rotation + 105 * (Math.PI / 180) );
     var p3y = this.radius * Math.cos(this.rotation + 105 * (Math.PI / 180) );
