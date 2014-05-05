@@ -106,8 +106,7 @@
 
     if(crashed){
       that.stop();
-      alert("Game over!");
-      location.reload();
+      this.loadEnding();
     }
   }
 
@@ -201,7 +200,7 @@
     var center_x = canvas.width / 2,
         center_y = canvas.height / 2;
 
-    var loadFrame = function() {
+    var scrollIntroText = function() {
       ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
       ctx.font = '65pt Calibri';
       ctx.textAlign = 'center';
@@ -218,7 +217,7 @@
       frameNo = Math.min(frameNo + 1, maxFrames);
     }
 
-    var scroll = setInterval(loadFrame, 25);
+    var scroll = setInterval(scrollIntroText, 25);
 
 
     var game = this;
@@ -229,6 +228,57 @@
       game.start();
       key.setScope('game');
     }) 
+  }
+
+  Game.prototype.loadEnding = function() {
+    var game = this,
+        maxFrames = 100;
+    key.setScope('ending');
+    
+    var frameNo = 0;
+    var ctx = this.canvas.getContext('2d');
+    var center_x = canvas.width / 2,
+        center_y = canvas.height / 2;
+
+    var loadFrame = function() {
+      ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+      if (frameNo < 4) {
+        ctx.beginPath();
+        ctx.fillStyle = 'red';
+        ctx.rect(0, 0, Game.DIM_X, Game.DIM_Y);
+        ctx.fill();
+      } else if (frameNo < 10) {
+        
+      } else if (frameNo < 15) {
+        ctx.beginPath();
+        ctx.fillStyle = 'red';
+        ctx.rect(0, 0, Game.DIM_X, Game.DIM_Y);
+        ctx.fill();
+      } else if (frameNo < maxFrames + 15) {
+        ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
+        ctx.font = '65pt Calibri';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'yellow';
+        ctx.fillText('Game Over', center_x, center_y - 100 + (maxFrames - frameNo - 15) / maxFrames * 400);
+        ctx.font = '30pt Calibri';
+        ctx.fillStyle = 'white';
+        ctx.fillText('Final Score:', center_x, center_y  + (maxFrames - frameNo - 15) / maxFrames * 400)
+        ctx.fillText(("" + game.score), center_x, center_y + 50  + (maxFrames - frameNo - 15) / maxFrames * 400)
+        ctx.font = '20pt Calibri';
+        ctx.fillText('Try again? Hit enter to restart...', center_x, center_y + 150  + (maxFrames - frameNo - 15) / maxFrames * 400)
+      }
+
+      frameNo = Math.min(frameNo + 1, maxFrames)
+
+    }
+
+    var ending = setInterval(loadFrame, 25);     
+
+    key('enter', 'ending', function() {
+      clearInterval(ending);
+      location.reload();
+    })  
+
   }
 
 
