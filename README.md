@@ -1,5 +1,10 @@
 # Cosmic Drift
 
+## NOTE:
+- THIS VERSION OF THE GAME IS NOW DEPRECATED IN FAVOR OF A REDONE MULTIPLAYER ONE
+- New Github repo: https://github.com/tyrusb/MultiplayerCosmicDrift
+- Url to check it out in action: http://cosmic-drift.herokuapp.com
+
 Asteroids! Spaceships! Interstellar Drifting! Cosmic Drift is an asteroids-like game created with HTML5's canvas element.
 
 ## Controls
